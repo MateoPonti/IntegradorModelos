@@ -7,7 +7,7 @@ class Semaforo:
         self.tR = tiempoRojo
         self.tA = tiempoAmarillo
         self.tSemaforos = tiempoSemaforos if tiempoSemaforos is not None else [0, 1, 2]
-        self.tipo =tipo
+        self.tipo= tipo if tipo is not None else "Indefinido"
 
     def calcularSemaforo(self):
         r = random.random()
@@ -30,15 +30,15 @@ class Semaforo:
               tiempo=self.tSemaforos[2]
      return tiempo,resultadoSemaforo
     def mostrar(self):
-     print("Semaforo Tipo"+ self.tipo)
+     return "Semaforo Tipo "+ self.tipo
 
 class FabricaSemaforo():
  def crearSemaforoA(self):
-     return Semaforo(0.4,0.5 ,0.1,"A")
+     return Semaforo(0.4,0.5 ,0.1,None,"A")
  def crearSemaforoB(self):
-     return Semaforo(0.3 , 0.6 ,0.1,"B")
+     return Semaforo(0.3 , 0.6 ,0.1,None,"B")
  def crearSemaforoC(self):
-     return Semaforo(0.6 , 0.3 ,0.1,"C")
+     return Semaforo(0.6 , 0.3 ,0.1,None,"C")
 
 
 class Ferrocarril():
@@ -64,7 +64,7 @@ class Ferrocarril():
                  tiempo=self.t3
      return tiempo
  def mostrar(self):
-     print("Ferrocarril")
+     return "Ferrocarril"
 
 class FabricaFerrocarril():
  def crearFerrocarrilTipo1(self):
@@ -98,7 +98,7 @@ class Tramo():
      tiempo= ( self.kmRecorrer / velocidad ) *60
      return tiempo 
  def mostrar(self):
-     print("Tramo")
+     return "Tramo"
 
 
 
@@ -137,36 +137,68 @@ class Parada():
          tiempo +=self.pSM3
 
      return tiempo
+ def mostrar(self):
+     return "Parada"
 
 
 class Ruta:
-    def __init__(self,paradas,semaforos,ferrocarril,orden):
+    def __init__(self,tramos,paradas,semaforos,ferrocarril,orden):
+     self.tramos= tramos
      self.paradas= paradas
      self.semaforos=semaforos
      self.ferrocarril= ferrocarril
      self.orden= orden
+     self.caminoStr=None
+
+
+
     def obtenerCamino(self):
      indiceSemaforo=0
      indiceFerrocarril=0
      indiceParadas=0
+     indiceTramos=0
+
 
      camino=[]
+     caminoStr=[]
 
-     for tramo in self.orden:
-         t = tramo
-         if "semaforo" in tramo:
-              camino.append(self.semaforos[indiceSemaforo])
+
+     for p in self.orden:
+
+         if "tramo" in p:
+              tramo=self.tramos[indiceTramos]
+              camino.append(tramo)
+              caminoStr.append(tramo.mostrar() + " "+ str(indiceTramos+1))
+              indiceTramos+=1
+
+         if "semaforo" in p:
+              semaforo = self.semaforos[indiceSemaforo]
+              camino.append(semaforo)
+              caminoStr.append(semaforo.mostrar()+" "+ str(indiceSemaforo+1))
               indiceSemaforo+=1
 
-         if "paradas" in tramo:
-              camino.append(self.paradas[indiceParadas])
+         if "parada" in p:
+              parada=self.paradas[indiceParadas]
+              camino.append(parada)
+              caminoStr.append(parada.mostrar()+" "+str(indiceParadas+1))
               indiceParadas+=1
 
-         if "ferrocarril" in tramo:
-              camino.append(self.ferrocarril[indiceFerrocarril])
+         if "ferrocarril" in p:
+              ferrocarril=self.ferrocarril[indiceFerrocarril]
+              camino.append(ferrocarril)
+              caminoStr.append(ferrocarril.mostrar()+" "+str(indiceFerrocarril+1))
               indiceFerrocarril+=1
+     self.caminoStr=caminoStr
      return camino
+    
+
     def mostrarCamino(self):
-     camino = self.obtenerCamino()
-     for tramo in camino:
-          tramo.mostrar() 
+     if self.caminoStr==None:
+          self.obtenerCamino()
+     camino = self.caminoStr
+     indice=1
+     for posicion in camino:
+         print(str(indice) + " )    " + posicion)
+         indice+=1
+        
+     

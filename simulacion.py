@@ -72,7 +72,7 @@ def simularNViajes(n):
         "ferrocarril", "tramo11", "semaforo8", "tramo12", "parada4", "tramo13"]
 
      semaforos=[semaforoA,semaforoA,semaforoA,semaforoB,semaforoC,semaforoB,semaforoC,semaforoB]
-     simularUnViaje(Ruta(paradas,semaforos,[ferrocarril],recorrido))
+     simularUnViaje(Ruta(tramos,paradas,semaforos,[ferrocarril],recorrido))
 
 
 recorrido = [
@@ -81,5 +81,9 @@ recorrido = [
         "tramo7", "semaforo5", "tramo8", "parada3", "tramo9", "semaforo6", "tramo10", "semaforo7",
         "ferrocarril", "tramo11", "semaforo8", "tramo12", "parada4", "tramo13"]
 semaforos=[semaforoA,semaforoA,semaforoA,semaforoB,semaforoC,semaforoB,semaforoC,semaforoB]
-r =Ruta(paradas,semaforos,[ferrocarril],recorrido)
-r.mostrarCamino()
+r =Ruta(tramos,paradas,semaforos,[ferrocarril],recorrido)
+
+
+
+res =r.mostrarCamino()
+
