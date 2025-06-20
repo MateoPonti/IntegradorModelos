@@ -1,4 +1,6 @@
 from clases import *
+from datetime import time, datetime, timedelta
+from collections import Counter
 
 
 
@@ -14,7 +16,53 @@ semaforoC = fabricaSemaforos.crearSemaforoC()
 fabricaFerrocarril = FabricaFerrocarril()
 ferrocarril= fabricaFerrocarril.crearFerrocarrilTipo1()
 
-probVelocidades = [0.7, 0.2, 0.1]
+
+
+
+
+
+
+def simularUnViajeHastaNSitio(ruta,n):
+  tiempo=0
+  c = ruta.obtenerCamino()
+  if n>=1 and n<=len(c):
+     for p in c:
+       tiempo+= p.calcularTiempo()
+  return tiempo
+
+def simularUnViaje(ruta):
+  return simularUnViajeHastaNSitio(ruta,len(ruta.obtenerCamino()))
+
+
+
+
+def simularNViajes(horaInicial,recorrido,paradas,tramos,semaforos,ferrocarril,cantidadIteraciones):
+  tiemposFinales=[]
+  for i in range(0,cantidadIteraciones):
+    minutos = simularUnViaje(Ruta(tramos,paradas,semaforos,ferrocarril,recorrido))
+
+
+    horaFinal = (datetime.combine(datetime.today(), horaInicial) + timedelta(minutes=int(minutos))).time()
+
+    tiemposFinales.append(horaFinal)
+    
+  return tiemposFinales
+
+
+
+
+horaInicial=time(13, 26)
+recorrido = [
+    "tramo1", "semaforo1", "tramo2", "semaforo2", "tramo3", "parada1", "tramo4", "semaforo3",
+    "tramo5", "parada2", "tramo6", "semaforo4",
+    "tramo7", "semaforo5", "tramo8", "parada3", "tramo9", "semaforo6", "tramo10", "semaforo7",
+    "ferrocarril", "tramo11", "semaforo8", "tramo12", "parada4", "tramo13"]
+semaforos=[semaforoA,semaforoA,semaforoA,semaforoB,semaforoC,semaforoB,semaforoC,semaforoB]
+f=[ferrocarril]
+
+cantidadIteraciones=1000
+
+
 
 datos_tramos = [
     [3, 30, 40, 20],
@@ -31,8 +79,10 @@ datos_tramos = [
     [1, 30, 35, 20],
     [1, 30, 35, 10]
 ]
+probVelocidades = [0.7, 0.2, 0.1]
 
 tramos = [Tramo(*datos, *probVelocidades) for datos in datos_tramos]
+
 
 
 
@@ -49,41 +99,15 @@ paradas = [Parada(*tiempos, *probParadas) for tiempos in datos_paradas]
 
 
 
-def simularUnViajeHastaNSitio(camino,n):
-  tiempo=0
-  if n>=1 and n<=len(camino):
-     for i in range(0,len(camino)):
-         tiempo += camino.calcularTiempo()
-  return tiempo
-
-def simularUnViaje(ruta):
-  camino= ruta.obtenerCamino()
-  print(camino)
-  simularUnViajeHastaNSitio(camino,len(camino))
+#tiempoUnViaje= simularUnViaje(Ruta(tramos,paradas,semaforos,[ferrocarril],recorrido))
+#print("Tiempo 1 solo viaje : " + str(tiempoUnViaje))
 
 
+horariosFinales= sorted(simularNViajes(horaInicial,recorrido,paradas,tramos,semaforos,f,cantidadIteraciones))
 
-def simularNViajes(n):
- for i in range(n):
-     recorrido = [
-        "tramo1", "semaforo1", "tramo2", "semaforo2", "tramo3", "parada1", "tramo4", "semaforo3",
-        "tramo5", "parada2", "tramo6", "semaforo4",
-        "tramo7", "semaforo5", "tramo8", "parada3", "tramo9", "semaforo6", "tramo10", "semaforo7",
-        "ferrocarril", "tramo11", "semaforo8", "tramo12", "parada4", "tramo13"]
+print(horariosFinales)
 
-     semaforos=[semaforoA,semaforoA,semaforoA,semaforoB,semaforoC,semaforoB,semaforoC,semaforoB]
-     simularUnViaje(Ruta(tramos,paradas,semaforos,[ferrocarril],recorrido))
+frecuencias = Counter(horariosFinales)
 
-
-recorrido = [
-        "tramo1", "semaforo1", "tramo2", "semaforo2", "tramo3", "parada1", "tramo4", "semaforo3",
-        "tramo5", "parada2", "tramo6", "semaforo4",
-        "tramo7", "semaforo5", "tramo8", "parada3", "tramo9", "semaforo6", "tramo10", "semaforo7",
-        "ferrocarril", "tramo11", "semaforo8", "tramo12", "parada4", "tramo13"]
-semaforos=[semaforoA,semaforoA,semaforoA,semaforoB,semaforoC,semaforoB,semaforoC,semaforoB]
-r =Ruta(tramos,paradas,semaforos,[ferrocarril],recorrido)
-
-
-
-res =r.mostrarCamino()
-
+for h in sorted(frecuencias):
+    print(h.strftime("%H:%M"), "→", frecuencias[h])

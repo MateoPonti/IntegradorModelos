@@ -28,7 +28,7 @@ class Semaforo:
           tiempo=0
           if r<=0.5:
               tiempo=self.tSemaforos[2]
-     return tiempo,resultadoSemaforo
+     return tiempo
     def mostrar(self):
      return "Semaforo Tipo "+ self.tipo
 
@@ -94,8 +94,9 @@ class Tramo():
          if r<=self.probE+self.probMin:
              velocidad=self.vMin
          else:
-             velocidad=self.t3
+             velocidad=self.vMax
      tiempo= ( self.kmRecorrer / velocidad ) *60
+
      return tiempo 
  def mostrar(self):
      return "Tramo"
@@ -146,6 +147,7 @@ class Ruta:
      self.tramos= tramos
      self.paradas= paradas
      self.semaforos=semaforos
+
      self.ferrocarril= ferrocarril
      self.orden= orden
      self.caminoStr=None
@@ -158,37 +160,37 @@ class Ruta:
      indiceParadas=0
      indiceTramos=0
 
-
+  
      camino=[]
      caminoStr=[]
-
-
-     for p in self.orden:
-
-         if "tramo" in p:
+     orden = self.orden
+    
+     for pos in orden:
+         if "tramo" in pos:
               tramo=self.tramos[indiceTramos]
               camino.append(tramo)
               caminoStr.append(tramo.mostrar() + " "+ str(indiceTramos+1))
               indiceTramos+=1
 
-         if "semaforo" in p:
+         if "semaforo" in pos:
               semaforo = self.semaforos[indiceSemaforo]
               camino.append(semaforo)
               caminoStr.append(semaforo.mostrar()+" "+ str(indiceSemaforo+1))
               indiceSemaforo+=1
 
-         if "parada" in p:
+         if "parada" in pos:
               parada=self.paradas[indiceParadas]
               camino.append(parada)
               caminoStr.append(parada.mostrar()+" "+str(indiceParadas+1))
               indiceParadas+=1
 
-         if "ferrocarril" in p:
+         if "ferrocarril" in pos:
               ferrocarril=self.ferrocarril[indiceFerrocarril]
               camino.append(ferrocarril)
               caminoStr.append(ferrocarril.mostrar()+" "+str(indiceFerrocarril+1))
               indiceFerrocarril+=1
      self.caminoStr=caminoStr
+
      return camino
     
 
