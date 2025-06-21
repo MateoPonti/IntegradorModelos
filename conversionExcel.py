@@ -42,7 +42,7 @@ def convertirAExcel(horas,frecuencias,hInicial,hMax,hmin,alpha,horaCuartoViaje,h
 
     ws["E16"] = f"Parámetros de 1 Solo viaje : "
     ws["E19"] = f"Hora un cuarto del viaje: {horaCuartoViaje}"
-    ws["E20"] = f"Hora mitad del Viaje : {horaMitad1Viaje"
+    ws["E20"] = f"Hora mitad del Viaje : { horaMitad1Viaje}"
     ws["E21"] = f"Hora tres cuartos del Viaje : {tres_cuartos}"
 
 
