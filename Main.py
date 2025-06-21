@@ -8,7 +8,7 @@ from simulacion import *
 def getParametrosViaje():  
     alpha=0.05
     cantidadIteraciones=1000
-    horaInicial=time(13, 26)
+    horaInicial=time(23, 26)
 
     fabricaSemaforos =  FabricaSemaforo()
     semaforoA = fabricaSemaforos.crearSemaforoA()
@@ -56,11 +56,6 @@ def getParametrosViaje():
 
 
 
-
-#tiempoUnViaje= simularUnViaje(Ruta(tramos,paradas,semaforos,[ferrocarril],recorrido))
-#print("Tiempo 1 solo viaje : " + str(tiempoUnViaje))
-
-
 def main():
  semaforos,ferrocarril,tramos,paradas,alpha,horaInicial,recorrido,cantidadIteraciones= getParametrosViaje()
 
@@ -70,18 +65,36 @@ def main():
  horasYfrecuencias = Counter(horariosFinales)
  horas, frecuencias = zip(*horasYfrecuencias.items())
  
- 
- porcentajeHoraMin= alpha*100
- porcentajeHoraMax= (1 - alpha)*100
+ mitadAlpha=alpha/2
+ porcentajeHoraMin= mitadAlpha*100
+ porcentajeHoraMax= (1 - mitadAlpha)*100
+
 
  cantidadHorasDiferentes= len(horas)
 
- horaMax=horas[int((porcentajeHoraMax*cantidadHorasDiferentes)/100)]
- horaMin=horas[int((porcentajeHoraMin*cantidadHorasDiferentes)/100)]
+
+ posicionHMax = round((porcentajeHoraMax*cantidadHorasDiferentes)/100)-1
+ posicionHMin= round((porcentajeHoraMin*cantidadHorasDiferentes)/100)  
+
+
+
+ horaMax=horas[posicionHMax]
+ horaMin=horas[posicionHMin]
+
+
+ cantidadParametros= len(recorrido)
+ r = Ruta(horaInicial,recorrido,paradas,tramos,semaforos,ferrocarril,cantidadIteraciones)
+
+ cuarto = int(cantidadParametros * 0.25)
+ mitad = int(cantidadParametros * 0.5)
+ tres_cuartos = int(cantidadParametros * 0.75)
+
+
+
+
  
+ convertirAExcel(list(horas),list(frecuencias),horaInicial,horaMax,horaMin,alpha,cuarto,mitad,tres_cuartos)
 
-
- convertirAExcel(list(horas),list(frecuencias),horaInicial,horaMax,horaMin,alpha)
 
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ from openpyxl import Workbook
 
 
 
-def convertirAExcel(horas,frecuencias,hInicial,hMax,hmin,alpha):
+def convertirAExcel(horas,frecuencias,hInicial,hMax,hmin,alpha,horaCuartoViaje,horaMitad1Viaje,tres_cuartos):
 
     df = pd.DataFrame({
         "Hora_HHMM": [h.strftime("%H:%M") for h in horas],
@@ -18,7 +18,7 @@ def convertirAExcel(horas,frecuencias,hInicial,hMax,hmin,alpha):
     plt.figure(figsize=(10, 5))
     plt.plot(df["Hora_HHMM"], df["CantidadDeViajes"], marker='o')
     plt.xticks(rotation=90)
-    plt.xlabel("Hora")
+    plt.xlabel("HoraLlegada")
     plt.ylabel("Cantidad de Viajes")
     plt.title("Viajes por horario")
     plt.grid(True)
@@ -35,10 +35,16 @@ def convertirAExcel(horas,frecuencias,hInicial,hMax,hmin,alpha):
     color_celdas = PatternFill(start_color="FFFFD966", end_color="FFFFD966", fill_type="solid")
 
     ws["E2"] = "Parámetros"
-    ws["E5"] = f"horaEstablecida: {hInicial}"
-    ws["E6"] = f"alpha: {alpha}"
-    ws["E7"] = f"horaMaxEsperadaConα : {hMax}"
-    ws["E8"] = f"horaMinEsperadaConα : {hmin}"
+    ws["E5"] = f"HoraEstablecida: {hInicial}"
+    ws["E6"] = f"Alpha: {alpha}"
+    ws["E7"] = f"HoraMinEsperadaConAlpha : {hmin}"
+    ws["E8"] = f"HoraMaxEsperadaConAlpha : {hMax}"
+
+    ws["E16"] = f"Parámetros de 1 Solo viaje : "
+    ws["E19"] = f"Hora un cuarto del viaje: {horaCuartoViaje}"
+    ws["E20"] = f"Hora mitad del Viaje : {horaMitad1Viaje"
+    ws["E21"] = f"Hora tres cuartos del Viaje : {tres_cuartos}"
+
 
     for col in ["E", "F", "G", "H"]:
         ws[f"{col}2"].fill = color_titulo
