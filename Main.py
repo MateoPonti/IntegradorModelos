@@ -92,8 +92,13 @@ def simularViajes(cantidadIteraciones):
 def ejecutarFuncion(entrada):
     try:
         iteraciones = int(entrada.get())
+        iterMax=10000
+        simulOk=True
+        if (iteraciones>10000):
+            messagebox.showinfo("Advertencia", "Ingrese un valor menor igual a "+str(iterMax))
+            simulOk=False
         simularViajes(int(iteraciones))
-        messagebox.showinfo("Éxito", "Simulación Terminada")
+        if simulOk : messagebox.showinfo("Éxito", "Simulación Terminada")
     except ValueError:
         messagebox.showerror("Error", "Por favor ingresa un número válido")
     except Exception:
