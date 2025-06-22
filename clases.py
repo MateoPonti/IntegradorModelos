@@ -106,36 +106,35 @@ class Tramo():
 
 
 class Parada():
- def __init__(self,probNoSubaNadie,probNoBajaNadie,probBajenM3,probSubanM3, tNS ,tNB ,NM3 , SM3):
-      self.pNb=probNoBajaNadie
-      self.pNs=probNoSubaNadie
-      self.pBM3=probBajenM3
-      self.pSM3=probSubanM3
+ def __init__(self,tiempoBajBajo,tiempoSubBajo ,tiempoBajAlto , tiempoSubAlto,probBajBajo,probSubidaBajo,probBajAlto,probSubidaAlto):
 
-      self.tNb=tNB
-      self.tNs=tNS
-      self.tBM3=NM3
-      self.tSM3=SM3
+      self.tBB=tiempoBajBajo
+      self.tBA=tiempoBajAlto
+      self.tSB=tiempoSubBajo
+      self.tSA=tiempoSubAlto
+
+      self.pBB=probBajBajo
+      self.pBA=probBajAlto
+      self.pSB=probSubidaBajo
+      self.pSA=probSubidaAlto
+
 
  def calcularTiempo(self):
-     tiempo=0
+     r = random.uniform(0,self.pBB+self.pBA)
+     tiempo=0 
 
-     r = random.random()
+     if (r<=self.pBB):
+         tiempo+=self.tBB
+     else:
+         tiempo+=self.tBA
 
-     # No baje nadie o bajen mas de 3
 
-     if r<= self.pNb:
-         tiempo = self.tNb
-     if r<= self.pNb+self.pBM3:
-         tiempo=self.pBM3
 
-     r = random.random()
-     
-     # No suba nadie o suba mas de 3
-     if r<= self.pNs:
-         tiempo += self.tNs
-     if r<= self.pNs+self.pSM3:
-         tiempo +=self.pSM3
+     r = random.uniform(0,self.pSB+self.pSA)
+     if (r<=self.pSB):
+         tiempo+=self.tSB
+     else:
+         tiempo+=self.tSA
 
      return tiempo
  def mostrar(self):

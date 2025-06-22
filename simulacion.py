@@ -32,7 +32,7 @@ def simularUnViaje(horaInicial,tramos,paradas,semaforos,ferrocarril,recorrido):
         Mmitad=tiempo
      if i==cuarto:
         Mtres_cuartos=tiempo
-
+ 
   horaFinal = (datetime.combine(datetime.today(), horaInicial) + timedelta(minutes=int(tiempo))).time()
   horaCuarto = (datetime.combine(datetime.today(), horaInicial) + timedelta(minutes=int(Mcuarto))).time()
   horaMitad = (datetime.combine(datetime.today(), horaInicial) + timedelta(minutes=int(Mmitad))).time()

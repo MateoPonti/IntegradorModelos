@@ -60,7 +60,7 @@ def convertirAExcel(cantidad,horas,frecuencias,hInicial,hMax,hmin,alpha,horaCuar
 
     img = ExcelImage("grafico_viajes.png")
     img.anchor = "I2"
+    
     ws.add_image(img)
-
     wb.save(archivo_excel)
 
