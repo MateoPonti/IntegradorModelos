@@ -97,17 +97,33 @@ def simularMilViaje():
     
 
 def main():
+
     ventana = tk.Tk()
     ventana.title("Simulador de Viajes")
-    ventana.geometry("600x300")
-    ventana.configure(bg="#ADD8E6")  # Azul claro
+    ventana.geometry("700x400")
+    ventana.configure(bg="#E0F7FA")
 
-    etiqueta = tk.Label(ventana, text="Simular 1000 Viajes", bg="#ADD8E6", font=("Arial", 16))
-    etiqueta.pack(pady=20)
+    frame_principal = tk.Frame(ventana, bg="#E0F7FA")
+    frame_principal.place(relx=0.5, rely=0.5, anchor="center")
 
-    boton_simulacion = tk.Button(ventana, text="Iniciar Simulación", command=ejecutarFuncion, width=20, height=2, bg="lightgreen")
+    etiqueta = tk.Label(frame_principal, text="Simular 1000 Viajes", bg="#E0F7FA", fg="#00796B", font=("Helvetica", 24, "bold"))
+    etiqueta.pack(pady=30)
+
+    boton_simulacion = tk.Button(
+        frame_principal,
+        text="Iniciar Simulación",
+        command=ejecutarFuncion,
+        width=25,
+        height=2,
+        bg="#4CAF50",
+        fg="white",
+        font=("Helvetica", 14, "bold"),
+        activebackground="#388E3C",
+        bd=0,
+        relief="flat",
+        cursor="hand2"
+    )
     boton_simulacion.pack(pady=10)
-
 
     ventana.mainloop()
 
