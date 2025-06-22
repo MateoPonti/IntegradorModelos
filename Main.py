@@ -9,7 +9,6 @@ from tkinter import messagebox
 
 def getParametrosViaje():  
     alpha=0.05
-    cantidadIteraciones=1000
     horaInicial=time(23, 26)
 
     fabricaSemaforos =  FabricaSemaforo()
@@ -54,20 +53,11 @@ def getParametrosViaje():
         [3, 4, 5, 6]
     ]
     paradas = [Parada(*tiempos, *probParadas) for tiempos in datos_paradas]
-    return semaforos,f,tramos,paradas,alpha,horaInicial,recorrido,cantidadIteraciones
+    return semaforos,f,tramos,paradas,alpha,horaInicial,recorrido
 
 
-
-
-def ejecutarFuncion():
-    try:
-     simularMilViaje()
-     messagebox.showinfo("Éxito", "Simulación Terminada")
-    except Exception:
-     messagebox.showerror("Error", "Ocurrió un problema durante la simulación")
-
-def simularMilViaje():
-    semaforos,ferrocarril,tramos,paradas,alpha,horaInicial,recorrido,cantidadIteraciones= getParametrosViaje()
+def simularViajes(cantidadIteraciones):
+    semaforos,ferrocarril,tramos,paradas,alpha,horaInicial,recorrido= getParametrosViaje()
 
     horariosFinales= sorted(simularNViajes(horaInicial,recorrido,paradas,tramos,semaforos,ferrocarril,cantidadIteraciones))
 
@@ -96,8 +86,20 @@ def simularMilViaje():
     convertirAExcel(cantidadIteraciones,list(horas),list(frecuencias),horaInicial,horaMax,horaMin,alpha,cuarto,mitad,tres_cuartos) 
     
 
-def main():
 
+
+
+def ejecutarFuncion(entrada):
+    try:
+        iteraciones = int(entrada.get())
+        simularViajes(int(iteraciones))
+        messagebox.showinfo("Éxito", "Simulación Terminada")
+    except ValueError:
+        messagebox.showerror("Error", "Por favor ingresa un número válido")
+    except Exception:
+        messagebox.showerror("Error", "Ocurrió un problema durante la simulación")
+
+def main():
     ventana = tk.Tk()
     ventana.title("Simulador de Viajes")
     ventana.geometry("700x400")
@@ -106,13 +108,16 @@ def main():
     frame_principal = tk.Frame(ventana, bg="#E0F7FA")
     frame_principal.place(relx=0.5, rely=0.5, anchor="center")
 
-    etiqueta = tk.Label(frame_principal, text="Simular 1000 Viajes", bg="#E0F7FA", fg="#00796B", font=("Helvetica", 24, "bold"))
+    etiqueta = tk.Label(frame_principal, text="Simular N Viajes", bg="#E0F7FA", fg="#00796B", font=("Helvetica", 24, "bold"))
     etiqueta.pack(pady=30)
+
+    entrada = tk.Entry(frame_principal, font=("Helvetica", 14), width=10, justify="center")
+    entrada.pack(pady=10)
 
     boton_simulacion = tk.Button(
         frame_principal,
         text="Iniciar Simulación",
-        command=ejecutarFuncion,
+        command=lambda: ejecutarFuncion(entrada),
         width=25,
         height=2,
         bg="#4CAF50",
@@ -126,7 +131,6 @@ def main():
     boton_simulacion.pack(pady=10)
 
     ventana.mainloop()
-
 
 
 
