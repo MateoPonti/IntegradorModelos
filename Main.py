@@ -82,14 +82,8 @@ def main():
  horaMin=horas[posicionHMin]
 
 
- cantidadParametros= len(recorrido)
- r = Ruta(horaInicial,recorrido,paradas,tramos,semaforos,ferrocarril,cantidadIteraciones)
-
- cuarto = int(cantidadParametros * 0.25)
- mitad = int(cantidadParametros * 0.5)
- tres_cuartos = int(cantidadParametros * 0.75)
-
-
+ _,cuarto,mitad,tres_cuartos = simularUnViaje(  horaInicial,tramos,paradas,semaforos,ferrocarril,recorrido)
+ 
 
 
  
