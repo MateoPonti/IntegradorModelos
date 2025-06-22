@@ -8,7 +8,7 @@ from openpyxl import Workbook
 
 
 
-def convertirAExcel(horas,frecuencias,hInicial,hMax,hmin,alpha,horaCuartoViaje,horaMitad1Viaje,tres_cuartos):
+def convertirAExcel(cantidad,horas,frecuencias,hInicial,hMax,hmin,alpha,horaCuartoViaje,horaMitad1Viaje,tres_cuartos):
 
     df = pd.DataFrame({
         "Hora_HHMM": [h.strftime("%H:%M") for h in horas],
@@ -34,7 +34,7 @@ def convertirAExcel(horas,frecuencias,hInicial,hMax,hmin,alpha,horaCuartoViaje,h
     color_titulo = PatternFill(start_color="FFCCE5FF", end_color="FFCCE5FF", fill_type="solid")
     color_celdas = PatternFill(start_color="FFFFD966", end_color="FFFFD966", fill_type="solid")
 
-    ws["E2"] = "Parámetros"
+    ws["E2"] = "Parámetros de " +str(cantidad) +" viajes"
     ws["E5"] = f"HoraEstablecida: {hInicial}"
     ws["E6"] = f"Alpha: {alpha}"
     ws["E7"] = f"HoraMinEsperadaConAlpha : {hmin}"
@@ -49,6 +49,13 @@ def convertirAExcel(horas,frecuencias,hInicial,hMax,hmin,alpha,horaCuartoViaje,h
     for col in ["E", "F", "G", "H"]:
         ws[f"{col}2"].fill = color_titulo
         for row in range(5, 9):
+            ws[f"{col}{row}"].fill = color_celdas
+    
+
+    
+    for col in ["E", "F", "G", "H"]:
+        ws[f"{col}16"].fill = color_titulo
+        for row in range(19,22):
             ws[f"{col}{row}"].fill = color_celdas
 
     img = ExcelImage("grafico_viajes.png")
