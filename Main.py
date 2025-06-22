@@ -3,6 +3,8 @@ from datetime import time, datetime, timedelta
 from collections import Counter
 from conversionExcel import *
 from simulacion import *
+import tkinter as tk
+from tkinter import messagebox
 
 
 def getParametrosViaje():  
@@ -56,42 +58,64 @@ def getParametrosViaje():
 
 
 
+
+def ejecutarFuncion():
+    try:
+     simularMilViaje()
+     messagebox.showinfo("Éxito", "Simulación Terminada")
+    except Exception:
+     messagebox.showerror("Error", "Ocurrió un problema durante la simulación")
+
+def simularMilViaje():
+    semaforos,ferrocarril,tramos,paradas,alpha,horaInicial,recorrido,cantidadIteraciones= getParametrosViaje()
+
+    horariosFinales= sorted(simularNViajes(horaInicial,recorrido,paradas,tramos,semaforos,ferrocarril,cantidadIteraciones))
+
+
+    horasYfrecuencias = Counter(horariosFinales)
+    horas, frecuencias = zip(*horasYfrecuencias.items())
+    
+    mitadAlpha=alpha/2
+    porcentajeHoraMin= mitadAlpha*100
+    porcentajeHoraMax= (1 - mitadAlpha)*100
+
+
+    cantidadHorasDiferentes= len(horas)
+
+
+    posicionHMax = round((porcentajeHoraMax*cantidadHorasDiferentes)/100)-1
+    posicionHMin= round((porcentajeHoraMin*cantidadHorasDiferentes)/100)  
+
+
+
+    horaMax=horas[posicionHMax]
+    horaMin=horas[posicionHMin]
+
+
+    _,cuarto,mitad,tres_cuartos = simularUnViaje(  horaInicial,tramos,paradas,semaforos,ferrocarril,recorrido)
+    convertirAExcel(cantidadIteraciones,list(horas),list(frecuencias),horaInicial,horaMax,horaMin,alpha,cuarto,mitad,tres_cuartos) 
+    
+
 def main():
- semaforos,ferrocarril,tramos,paradas,alpha,horaInicial,recorrido,cantidadIteraciones= getParametrosViaje()
+    ventana = tk.Tk()
+    ventana.title("Simulador de Viajes")
+    ventana.geometry("600x300")
+    ventana.configure(bg="#ADD8E6")  # Azul claro
 
- horariosFinales= sorted(simularNViajes(horaInicial,recorrido,paradas,tramos,semaforos,ferrocarril,cantidadIteraciones))
+    etiqueta = tk.Label(ventana, text="Simular 1000 Viajes", bg="#ADD8E6", font=("Arial", 16))
+    etiqueta.pack(pady=20)
 
-
- horasYfrecuencias = Counter(horariosFinales)
- horas, frecuencias = zip(*horasYfrecuencias.items())
- 
- mitadAlpha=alpha/2
- porcentajeHoraMin= mitadAlpha*100
- porcentajeHoraMax= (1 - mitadAlpha)*100
-
-
- cantidadHorasDiferentes= len(horas)
+    boton_simulacion = tk.Button(ventana, text="Iniciar Simulación", command=ejecutarFuncion, width=20, height=2, bg="lightgreen")
+    boton_simulacion.pack(pady=10)
 
 
- posicionHMax = round((porcentajeHoraMax*cantidadHorasDiferentes)/100)-1
- posicionHMin= round((porcentajeHoraMin*cantidadHorasDiferentes)/100)  
+    ventana.mainloop()
 
 
 
- horaMax=horas[posicionHMax]
- horaMin=horas[posicionHMin]
-
-
- _,cuarto,mitad,tres_cuartos = simularUnViaje(  horaInicial,tramos,paradas,semaforos,ferrocarril,recorrido)
- 
-
-
-
- convertirAExcel(cantidadIteraciones,list(horas),list(frecuencias),horaInicial,horaMax,horaMin,alpha,cuarto,mitad,tres_cuartos)
-
- print("Simulacion Finalizada")
 
 
 
 if __name__ == "__main__":
     main()
+    
