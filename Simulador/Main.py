@@ -56,7 +56,7 @@ def getParametrosViaje():
     return semaforos,f,tramos,paradas,alpha,horaInicial,recorrido
 
 
-def simularViajes(cantidadIteraciones):
+def simularViajes(nombreExcel,cantidadIteraciones):
     semaforos,ferrocarril,tramos,paradas,alpha,horaInicial,recorrido= getParametrosViaje()
 
     horariosFinales= sorted(simularNViajes(horaInicial,recorrido,paradas,tramos,semaforos,ferrocarril,cantidadIteraciones))
@@ -83,13 +83,13 @@ def simularViajes(cantidadIteraciones):
 
 
     vfinal,cuarto,mitad,tres_cuartos = simularUnViaje(  horaInicial,tramos,paradas,semaforos,ferrocarril,recorrido)
-    convertirAExcel(cantidadIteraciones,list(horas),list(frecuencias),horaInicial,horaMax,horaMin,alpha,cuarto,mitad,tres_cuartos,vfinal) 
+    convertirAExcel(nombreExcel,cantidadIteraciones,list(horas),list(frecuencias),horaInicial,horaMax,horaMin,alpha,cuarto,mitad,tres_cuartos,vfinal) 
     
 
 
 
 
-def ejecutarFuncion(entrada):
+def ejecutarFuncion(nombreExcel,entrada):
     try:
         iteraciones = int(entrada.get())
         iterMax=10000
@@ -97,7 +97,7 @@ def ejecutarFuncion(entrada):
         if (iteraciones>10000):
             messagebox.showinfo("Advertencia", "Ingrese un valor menor igual a "+str(iterMax))
             simulOk=False
-        simularViajes(int(iteraciones))
+        simularViajes(nombreExcel,int(iteraciones))
         if simulOk : messagebox.showinfo("Éxito", "Simulación Terminada")
     except ValueError:
         messagebox.showerror("Error", "Por favor ingresa un número válido")
@@ -122,7 +122,7 @@ def main():
     boton_simulacion = tk.Button(
         frame_principal,
         text="Iniciar Simulación",
-        command=lambda: ejecutarFuncion(entrada),
+        command=lambda: ejecutarFuncion("ViajesHTotales",entrada),
         width=25,
         height=2,
         bg="#4CAF50",

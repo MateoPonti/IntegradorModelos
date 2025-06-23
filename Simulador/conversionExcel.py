@@ -8,7 +8,7 @@ from openpyxl import Workbook
 
 
 
-def convertirAExcel(cantidad,horas,frecuencias,hInicial,hMax,hmin,alpha,horaCuartoViaje,horaMitad1Viaje,tres_cuartos,vfinal):
+def convertirAExcel(nombreExcel,cantidad,horas,frecuencias,hInicial,hMax,hmin,alpha,horaCuartoViaje,horaMitad1Viaje,tres_cuartos,vfinal):
 
     df = pd.DataFrame({
         "Hora_HHMM": [h.strftime("%H:%M") for h in horas],
@@ -26,7 +26,7 @@ def convertirAExcel(cantidad,horas,frecuencias,hInicial,hMax,hmin,alpha,horaCuar
     plt.savefig("grafico_viajes.png")
     plt.close()
 
-    archivo_excel = "viajes_resultado.xlsx"
+    archivo_excel = nombreExcel+".xlsx"
 
     wb = Workbook()
     ws = wb.active

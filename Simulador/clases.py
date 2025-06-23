@@ -2,18 +2,18 @@ import random
 
 
 class Semaforo:
-    def __init__(self, tiempoVerde, tiempoRojo, tiempoAmarillo, tiempoSemaforos=None , tipo=None):
-        self.tV = tiempoVerde
-        self.tR = tiempoRojo
-        self.tA = tiempoAmarillo
+    def __init__(self, probtiempoVerde, probtiempoRojo, probtiempoAmarillo, tiempoSemaforos=None , tipo=None):
+        self.ptV = probtiempoVerde
+        self.ptR = probtiempoRojo
+        self.ptA = probtiempoAmarillo
         self.tSemaforos = tiempoSemaforos if tiempoSemaforos is not None else [0, 1, 2]
         self.tipo= tipo if tipo is not None else "Indefinido"
 
     def calcularSemaforo(self):
         r = random.random()
-        if r <= self.tV:
+        if r <= self.ptV:
             return "V"
-        if r <= self.tV + self.tR:
+        if r <= self.ptV + self.ptR:
             return "R"
         return "A"
 
