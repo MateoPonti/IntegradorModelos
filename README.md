@@ -8,7 +8,7 @@ Trabajo practico integrados modelos y simulación , 2025
 - Python 3.7 o superior
 - pip (gestor de paquetes de Python)
 
-## 📦 Dependencias
+## Dependencias
 
 Este proyecto requiere los siguientes módulos de Python:
 
