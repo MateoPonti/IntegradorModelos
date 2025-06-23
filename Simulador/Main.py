@@ -82,8 +82,8 @@ def simularViajes(cantidadIteraciones):
     horaMin=horas[posicionHMin]
 
 
-    _,cuarto,mitad,tres_cuartos = simularUnViaje(  horaInicial,tramos,paradas,semaforos,ferrocarril,recorrido)
-    convertirAExcel(cantidadIteraciones,list(horas),list(frecuencias),horaInicial,horaMax,horaMin,alpha,cuarto,mitad,tres_cuartos) 
+    vfinal,cuarto,mitad,tres_cuartos = simularUnViaje(  horaInicial,tramos,paradas,semaforos,ferrocarril,recorrido)
+    convertirAExcel(cantidadIteraciones,list(horas),list(frecuencias),horaInicial,horaMax,horaMin,alpha,cuarto,mitad,tres_cuartos,vfinal) 
     
 
 

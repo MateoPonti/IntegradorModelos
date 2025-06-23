@@ -10,11 +10,6 @@ from collections import Counter
 def simularUnViaje(horaInicial,tramos,paradas,semaforos,ferrocarril,recorrido):
   tiempo=0
 
-  tiempoCuarto=0
-  tiempoMitad=0
-  tiempoTresCuarto=0
-
-
   r=Ruta(tramos,paradas,semaforos,ferrocarril,recorrido)
   
   c = r.obtenerCamino()
@@ -30,14 +25,14 @@ def simularUnViaje(horaInicial,tramos,paradas,semaforos,ferrocarril,recorrido):
         Mcuarto=tiempo
      if i==mitad:
         Mmitad=tiempo
-     if i==cuarto:
+     if i==tres_cuartos:
         Mtres_cuartos=tiempo
  
   horaFinal = (datetime.combine(datetime.today(), horaInicial) + timedelta(minutes=int(tiempo))).time()
   horaCuarto = (datetime.combine(datetime.today(), horaInicial) + timedelta(minutes=int(Mcuarto))).time()
   horaMitad = (datetime.combine(datetime.today(), horaInicial) + timedelta(minutes=int(Mmitad))).time()
   horaTresCuartos = (datetime.combine(datetime.today(), horaInicial) + timedelta(minutes=int(Mtres_cuartos))).time()
-  return horaFinal,horaCuarto,horaMitad,horaFinal
+  return horaFinal,horaCuarto,horaMitad,horaTresCuartos
 
 
 

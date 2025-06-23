@@ -8,7 +8,7 @@ from openpyxl import Workbook
 
 
 
-def convertirAExcel(cantidad,horas,frecuencias,hInicial,hMax,hmin,alpha,horaCuartoViaje,horaMitad1Viaje,tres_cuartos):
+def convertirAExcel(cantidad,horas,frecuencias,hInicial,hMax,hmin,alpha,horaCuartoViaje,horaMitad1Viaje,tres_cuartos,vfinal):
 
     df = pd.DataFrame({
         "Hora_HHMM": [h.strftime("%H:%M") for h in horas],
@@ -40,10 +40,12 @@ def convertirAExcel(cantidad,horas,frecuencias,hInicial,hMax,hmin,alpha,horaCuar
     ws["E7"] = f"HoraMinEsperadaConAlpha : {hmin}"
     ws["E8"] = f"HoraMaxEsperadaConAlpha : {hMax}"
 
-    ws["E16"] = f"Parámetros de 1 Solo viaje : "
+    ws["E16"] = f"Parámetros de 1 Solo viaje (Nuevamente Simulado) : "
     ws["E19"] = f"Hora un cuarto del viaje: {horaCuartoViaje}"
     ws["E20"] = f"Hora mitad del Viaje : { horaMitad1Viaje}"
     ws["E21"] = f"Hora tres cuartos del Viaje : {tres_cuartos}"
+    ws["E22"] = f"Hora Final del Viaje : {vfinal}"
+
 
 
     for col in ["E", "F", "G", "H"]:
@@ -55,7 +57,7 @@ def convertirAExcel(cantidad,horas,frecuencias,hInicial,hMax,hmin,alpha,horaCuar
     
     for col in ["E", "F", "G", "H"]:
         ws[f"{col}16"].fill = color_titulo
-        for row in range(19,22):
+        for row in range(19,23):
             ws[f"{col}{row}"].fill = color_celdas
 
     img = ExcelImage("grafico_viajes.png")
