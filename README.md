@@ -1,4 +1,4 @@
-# IntegradorModelos
+# Integrador Modelos
 Trabajo practico integrados Modelos, Simulación y Teoría de la Decisión , 2025
 
 
