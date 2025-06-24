@@ -22,8 +22,11 @@ Podés instalarlos todos juntos ejecutando:
 ```bash
 python3 -m pip install pandas matplotlib openpyxl
 
-Editor de Codigo : Visual Studio Code (Recomendado)
 ```
+
+
+Editor de Codigo : Visual Studio Code (Recomendado)
+
 
 #  Indicaciones de Uso 
 Luego de haber instalado las dependencias del programa , solo debe posicionarse en la carpeta del archivo con su editor de codigo y ejecutar el archivo Main.py.
