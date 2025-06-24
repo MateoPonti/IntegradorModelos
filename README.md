@@ -1,7 +1,7 @@
 # Integrador Modelos
 Trabajo practico integrados Modelos, Simulación y Teoría de la Decisión , 2025
-Autor : Ponti Mateo Daniel
 
+Autor : Ponti Mateo Daniel
 
 
 ##  Requisitos
