@@ -8,8 +8,9 @@ from tkinter import messagebox
 
 
 def getParametrosViaje():  
+    nombreExcel = "ViajesTotales"
     alpha=0.05
-    horaInicial=time(23, 26)
+    horaInicial=time(15,30)
 
     fabricaSemaforos =  FabricaSemaforo()
     semaforoA = fabricaSemaforos.crearSemaforoA()
@@ -53,11 +54,107 @@ def getParametrosViaje():
         [3, 4, 5, 6]
     ]
     paradas = [Parada(*tiempos, *probParadas) for tiempos in datos_paradas]
-    return semaforos,f,tramos,paradas,alpha,horaInicial,recorrido
+    return  nombreExcel,semaforos,f,tramos,paradas,alpha,horaInicial,recorrido
 
 
-def simularViajes(nombreExcel,cantidadIteraciones):
-    semaforos,ferrocarril,tramos,paradas,alpha,horaInicial,recorrido= getParametrosViaje()
+def getParametrosViajeModificadosOptimista(): 
+    nombreExcel= "ViajeTotalesOptimista" 
+    alpha=0.05
+    horaInicial=time(15, 30)
+
+    fabricaSemaforos =  FabricaSemaforo()
+    semaforoBalanceado = Semaforo(1,0,0)
+
+    fabricaFerrocarril = FabricaFerrocarril()
+    ferrocarril= fabricaFerrocarril.crearFerrocarrilTipo1()
+
+    recorrido = [
+        "tramo1", "semaforo1", "tramo2", "semaforo2", "tramo3", "parada1", "tramo4", "semaforo3",
+        "tramo5", "parada2", "tramo6", "semaforo4",
+        "tramo7", "semaforo5", "tramo8", "parada3", "tramo9", "semaforo6", "tramo10", "semaforo7",
+        "ferrocarril", "tramo11", "semaforo8", "tramo12", "parada4", "tramo13"]
+    semaforos=[semaforoBalanceado,semaforoBalanceado,semaforoBalanceado,semaforoBalanceado,semaforoBalanceado,semaforoBalanceado,semaforoBalanceado,semaforoBalanceado]
+    f=[ferrocarril]
+
+    datos_tramos = [
+        [3, 30, 40, 20],
+        [5, 40, 45, 30],
+        [5, 40, 50, 40],
+        [1, 30, 40, 10],
+        [4, 40, 40, 40],
+        [2, 10, 30, 40],
+        [5, 40, 45, 30],
+        [10, 30, 40, 60],
+        [20, 50, 55, 40],
+        [5, 30, 30, 30],
+        [1, 30, 35, 30],
+        [1, 30, 35, 20],
+        [1, 30, 35, 10]
+    ]
+    probVelocidades = [0.2, 0.7, 0.1]
+    tramos = [Tramo(*datos, *probVelocidades) for datos in datos_tramos]
+
+    probParadas = [0.6, 0.5, 0.2,0.2]
+    datos_paradas = [
+        [1, 2, 3, 4],
+        [0.5, 2, 3, 4],
+        [0, 1, 2, 3],
+        [3, 4, 5, 6]
+    ]
+    paradas = [Parada(*tiempos, *probParadas) for tiempos in datos_paradas]
+    return nombreExcel,semaforos,f,tramos,paradas,alpha,horaInicial,recorrido
+
+
+def getParametrosViajeModificadosPesimista(): 
+    nombreExcel= "ViajeTotalesPesimista" 
+    alpha=0.05
+    horaInicial=time(15, 30)
+
+    semaforoBalanceado = Semaforo(0,1,0)
+
+    fabricaFerrocarril = FabricaFerrocarril()
+    ferrocarril= fabricaFerrocarril.crearFerrocarrilTipo1()
+
+    recorrido = [
+        "tramo1", "semaforo1", "tramo2", "semaforo2", "tramo3", "parada1", "tramo4", "semaforo3",
+        "tramo5", "parada2", "tramo6", "semaforo4",
+        "tramo7", "semaforo5", "tramo8", "parada3", "tramo9", "semaforo6", "tramo10", "semaforo7",
+        "ferrocarril", "tramo11", "semaforo8", "tramo12", "parada4", "tramo13"]
+    semaforos=[semaforoBalanceado,semaforoBalanceado,semaforoBalanceado,semaforoBalanceado,semaforoBalanceado,semaforoBalanceado,semaforoBalanceado,semaforoBalanceado]
+    f=[ferrocarril]
+
+    datos_tramos = [
+        [3, 30, 40, 20],
+        [5, 40, 45, 30],
+        [5, 40, 50, 40],
+        [1, 30, 40, 10],
+        [4, 40, 40, 40],
+        [2, 10, 30, 40],
+        [5, 40, 45, 30],
+        [10, 30, 40, 60],
+        [20, 50, 55, 40],
+        [5, 30, 30, 30],
+        [1, 30, 35, 30],
+        [1, 30, 35, 20],
+        [1, 30, 35, 10]
+    ]
+    probVelocidades = [0.1, 0.2, 0.7]
+    tramos = [Tramo(*datos, *probVelocidades) for datos in datos_tramos]
+
+    probParadas = [0.2, 0.2, 0.5,0.6]
+    datos_paradas = [
+        [1, 2, 3, 4],
+        [0.5, 2, 3, 4],
+        [0, 1, 2, 3],
+        [3, 4, 5, 6]
+    ]
+    paradas = [Parada(*tiempos, *probParadas) for tiempos in datos_paradas]
+    return nombreExcel,semaforos,f,tramos,paradas,alpha,horaInicial,recorrido
+
+
+
+def simularViajes(cantidadIteraciones):
+    nombreExcel,semaforos,ferrocarril,tramos,paradas,alpha,horaInicial,recorrido= getParametrosViaje()
 
     horariosFinales= sorted(simularNViajes(horaInicial,recorrido,paradas,tramos,semaforos,ferrocarril,cantidadIteraciones))
 
@@ -76,7 +173,7 @@ def simularViajes(nombreExcel,cantidadIteraciones):
     posicionHMax = round((porcentajeHoraMax*cantidadHorasDiferentes)/100)-1
     posicionHMin= round((porcentajeHoraMin*cantidadHorasDiferentes)/100)  
 
-
+  
 
     horaMax=horas[posicionHMax]
     horaMin=horas[posicionHMin]
@@ -89,7 +186,7 @@ def simularViajes(nombreExcel,cantidadIteraciones):
 
 
 
-def ejecutarFuncion(nombreExcel,entrada):
+def ejecutarFuncion(entrada):
     try:
         iteraciones = int(entrada.get())
         iterMax=10000
@@ -97,7 +194,7 @@ def ejecutarFuncion(nombreExcel,entrada):
         if (iteraciones>10000):
             messagebox.showinfo("Advertencia", "Ingrese un valor menor igual a "+str(iterMax))
             simulOk=False
-        simularViajes(nombreExcel,int(iteraciones))
+        simularViajes(int(iteraciones))
         if simulOk : messagebox.showinfo("Éxito", "Simulación Terminada")
     except ValueError:
         messagebox.showerror("Error", "Por favor ingresa un número válido")
@@ -122,7 +219,7 @@ def main():
     boton_simulacion = tk.Button(
         frame_principal,
         text="Iniciar Simulación",
-        command=lambda: ejecutarFuncion("ViajesHTotales",entrada),
+        command=lambda: ejecutarFuncion(entrada),
         width=25,
         height=2,
         bg="#4CAF50",
